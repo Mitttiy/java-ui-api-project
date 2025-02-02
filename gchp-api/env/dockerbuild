@@ -1,0 +1,5 @@
+USER_API_WSDL_URL=http://user-service.domain/soap/publicUser?wsdl
+USER_INTERFACE_API_WSDL_URL=http://user-interface-service.domain/soap/publicUserInterface?wsdl
+DICTIONARY_SERVICE_DATA_WSDL=http://dict.domain/soap/dictionaryData?wsdl
+DICTIONARY_SERVICE_METADATA_WSDL=http://dict.domain/soap/dictionaryMetadata?wsdl
+DOC_SERVICE_METADATA=http://doc.domain/soap/docMetaData?wsdl

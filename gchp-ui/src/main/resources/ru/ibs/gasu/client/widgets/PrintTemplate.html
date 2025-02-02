@@ -1,0 +1,255 @@
+<style type="text/css" xmlns:page-break-after="http://java.sun.com/xml/ns/persistence/orm">
+    .mainTables {
+        position: relative;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .tableMain {
+        width: 100%;
+        table-layout: fixed;
+        margin-top: 32px;
+        text-align: center;
+    }
+
+    .tableHeader {
+        width: 100%;
+        table-layout: fixed;
+        overflow-x: hidden;
+    }
+
+    .tableHeader td {
+        padding-right: 20px;
+    }
+
+    .headerCol1 {
+        width: 150px;
+    }
+
+    .tableInner {
+        margin-top: 0;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .tableInner td, th {
+        border-style: none !important;
+    }
+
+    .tableMain td {
+        padding: 10px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: lightgray;
+        color: gray;
+    }
+
+    .tableMain td, th {
+        overflow-x: hidden;
+    }
+
+    .gerb {
+        width: 120px;
+        padding-right: 20px;
+    }
+
+    .printer {
+        width: 40px;
+        height: 40px;
+        float: right;
+        cursor: pointer;
+    }
+
+    .gerbCol {
+        width: 120px;
+    }
+</style>
+
+<div class="mainTables" id="mainTables">
+    <table class="tableHeader">
+        <tr>
+            <td class="gerbCol">
+                <img src="http://gasu.gov.ru/analyticsRes/s_gasu/mono/{printer.emblem}" alt="" class="gerb">
+            </td>
+
+            <td>
+                <table class="tableHeader">
+                    <tr>
+                        <td class="headerCol1">
+                            Субъект:
+                        </td>
+
+                        <td>
+                            {printer.subjectLabel}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="headerCol1">
+                            Население субъекта (тыс. чел.):
+                        </td>
+
+                        <td>
+                            {printer.populationSubjectLabel}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="headerCol1">
+                            МО:
+                        </td>
+
+                        <td>
+                            {printer.moLabel}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="headerCol1">
+                            Население МО:
+                        </td>
+
+                        <td>
+                            {printer.populationMoLabel}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+            <td class="gerbCol">
+                <img src="{printer.print}" alt="" class="printer" onclick="window.printer()">
+            </td>
+        </tr>
+    </table>
+
+    <table class="tableMain">
+        <tr>
+            <th>Наименование проекта</th>
+        </tr>
+
+        <tr>
+            <td>
+                {printer.nameLabel}
+            </td>
+        </tr>
+    </table>
+
+    <table class="tableMain">
+        <tr>
+            <th>Статус проекта</th>
+            <th>ID проекта</th>
+        </tr>
+
+        <tr>
+            <td>
+                {printer.statusLabel}
+            </td>
+            <td>
+                {printer.idLabel}
+            </td>
+        </tr>
+    </table>
+
+    <table class="tableMain">
+        <tr>
+            <th>Способ заключения соглашения</th>
+            <th>Форма реализации проекта</th>
+            <th>Уровень реализации проекта</th>
+            <th>Сфера реализации проекта</th>
+            <th>Отрасль реализации проекта</th>
+        </tr>
+
+        <tr>
+            <td>
+                {printer.agreementMethodLabel}
+            </td>
+            <td>
+                {printer.implFormLabel}
+            </td>
+            <td>
+                {printer.implLevelLabel}
+            </td>
+            <td>
+                {printer.implSphereLabel}
+            </td>
+            <td>
+                {printer.implSectorLabel}
+            </td>
+        </tr>
+    </table>
+
+    <table class="tableMain">
+        <tr>
+            <th>Наименование публичной стороны</th>
+            <th>Наименование частной стороны</th>
+        </tr>
+
+        <tr>
+            <td>
+                {printer.publicNameLabel}
+            </td>
+            <td>
+                {printer.privateNameLabel}
+            </td>
+        </tr>
+    </table>
+
+    <table class="tableMain">
+        <tr>
+            <th>Дата заключения соглашения</th>
+            <th>Общий срок действия соглашения, лет</th>
+            <th>Дата ввода объекта в эксплуатацию по соглашению</th>
+            <th>Дата ввода объекта в эксплуатацию фактическая</th>
+        </tr>
+
+        <tr>
+            <td>
+                {printer.agreementDateLabel}
+            </td>
+            <td>
+                {printer.validityLabel}
+            </td>
+            <td>
+                {printer.commissioningDateAgreementLabel}
+            </td>
+            <td>
+                {printer.commissioningDateFactLabel}
+            </td>
+        </tr>
+    </table>
+
+    <table class="tableMain" style="page-break-after:always">
+        <tr>
+            <th>Общий объем инвестиций, тыс. руб.</th>
+            <th>Общий объем частных инвестиций, тыс. руб.</th>
+            <th>Объем бюджетных расходов, тыс. руб.</th>
+        </tr>
+
+        <tr>
+            <td>
+                {printer.totalInvestmentSizeLabel}
+            </td>
+            <td>
+                {printer.privateInvestmentSizeLabel}
+            </td>
+            <td>
+                {printer.budgetExpendituresLabel}
+            </td>
+        </tr>
+    </table>
+
+    <table class="tableMain" style="page-break-after:always">
+
+        <tr>
+            <th>Технико-экономические показатели проекта</th>
+        </tr>
+
+        <tr>
+            <td>
+                <table class="tableInner">
+                    {printer.table}
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

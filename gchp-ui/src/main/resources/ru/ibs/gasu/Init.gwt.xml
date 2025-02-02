@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='init'>
+
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.precompress.Precompress"/>
+
+    <inherits name="com.sencha.gxt.widget.core.Core"/>
+    <inherits name="com.sencha.gxt.state.State"/>
+
+    <inherits name="com.sencha.gxt.theme.triton.Theme"/>
+    <inherits name="org.fusesource.restygwt.RestyGWT"/>
+
+    <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE' />
+
+    <set-property name="gxt.theme" value="triton"/>
+
+    <set-property name="gxt.css3.enabled" value="false">
+        <any>
+            <when-property-is name="gxt.theme" value="blue"/>
+            <when-property-is name="gxt.theme" value="gray"/>
+        </any>
+    </set-property>
+
+    <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+    <set-property name="gwt.logging.developmentModeHandler" value="ENABLED" />
+    <set-property name="gwt.logging.systemHandler" value="ENABLED" />
+    <set-property name="gwt.logging.enabled" value="TRUE"/>
+
+    <set-configuration-property name="CssResource.enableGss" value="true"/>
+    <set-configuration-property name="CssResource.style" value="pretty"/>
+
+    <set-property name="gxt.user.agent" value="ie9, ie10, ie11, gecko1_9, safari5, chrome"/>
+
+    <collapse-property name="gxt.user.agent" values="gecko1_9, safari5, chrome"/>
+    <collapse-property name="gxt.user.agent" values="ie*"/>
+    <collapse-property name="user.agent.os" values="*"/>
+    <collapse-all-properties/>
+
+    <inherits name="com.google.gwt.i18n.I18N"/>
+
+    <set-configuration-property name="CssResource.obfuscationPrefix" value="empty"/>
+
+    <extend-configuration-property name="document.compatMode" value="BackCompat"/>
+
+    <extend-property name="locale" values="ru"/>
+    <extend-property name="locale" values="ru_RU"/>
+    <set-property-fallback name="locale" value="ru"/>
+
+    <source path='common'/>
+    <source path='client'/>
+
+    <replace-with class="ru.ibs.gasu.client.widgets.componens.GGridAppearance">
+        <when-type-is class="com.sencha.gxt.widget.core.client.grid.GridView.GridAppearance"/>
+        <any>
+            <when-property-is name="superdevmode" value="on"/>
+            <when-property-is name="superdevmode" value="off"/>
+        </any>
+    </replace-with>
+
+    <replace-with class="ru.ibs.gasu.client.widgets.componens.GColumnHeaderAppearance">
+        <when-type-is class="com.sencha.gxt.widget.core.client.grid.ColumnHeader.ColumnHeaderAppearance"/>
+        <any>
+            <when-property-is name="superdevmode" value="on"/>
+            <when-property-is name="superdevmode" value="off"/>
+        </any>
+    </replace-with>
+
+    <replace-with class="ru.ibs.gasu.client.widgets.componens.GTabPanelAppearance">
+        <when-type-is class="com.sencha.gxt.widget.core.client.TabPanel.TabPanelAppearance"/>
+        <any>
+            <when-property-is name="superdevmode" value="on"/>
+            <when-property-is name="superdevmode" value="off"/>
+        </any>
+    </replace-with>
+</module>

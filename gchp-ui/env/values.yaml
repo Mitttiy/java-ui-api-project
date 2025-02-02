@@ -1,0 +1,41 @@
+# Количество экземпляров приложения. Требуется для отказоустойчивости
+replicaCount: 1
+
+# Переменные с которыми запустится ваше приложение 
+env:
+  GCHP_API_BASE_URL: http://gchp-api.gasu-development.ibs.ru
+  FILE_API_ENDPOINT: http://file.gasu-development.ibs.ru
+  LOG_LVL: INFO
+  SOAP_LOG_LVL: WARN
+
+# По какой ссылке приложение доступно
+route:
+  host: gchp-ui.gasu-development.ibs.ru
+
+# Сколько ресурсов выдается при запуске = "requests". Если перевалить через "limits" то приложение перезапустится
+resources:
+  limits:
+    cpu: '2'
+    memory: 2048Mi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+
+# Проверка, что приложение живое и отвечает на запросы
+probe:
+  enabled: true
+livenessProbe:
+  enabled: false
+  path: '/health'
+  failureThreshold: 4
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+  initialDelaySeconds: 30
+readinessProbe:
+  path: '/health'
+  failureThreshold: 4
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+  initialDelaySeconds: 30

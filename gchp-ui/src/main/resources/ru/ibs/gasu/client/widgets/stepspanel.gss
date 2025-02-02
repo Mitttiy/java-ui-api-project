@@ -1,0 +1,18 @@
+.itemWrap {
+    cursor: pointer;
+    vertical-align: middle;
+    color: #484848;
+    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    height: 20px;
+}
+
+.itemOver {
+    color: #40a4bb
+}
+
+.itemSelected {
+    color: #40a4bb
+}
+

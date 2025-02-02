@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.ibs.gasu</groupId>
+    <artifactId>gchp-api</artifactId>
+    <version>1.1.1</version>
+    <packaging>war</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.8.RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <buildClassifier>${buildNumber}</buildClassifier>
+        <dict-data.wsdl.classgen>http://dict.gasu-development.ibs.ru/soap/dictionaryData?wsdl</dict-data.wsdl.classgen>
+        <dict-meta.wsdl.classgen>http://dict.gasu-development.ibs.ru/soap/dictionaryMetadata?wsdl
+        </dict-meta.wsdl.classgen>
+        <doc.wsdl.classgen>http://doc.gasu-development.ibs.ru/soap/docMetaData?wsdl</doc.wsdl.classgen>
+    </properties>
+
+    <scm>
+        <connection>scm:git:http://jenkins.lxd/gasu/gchp-api.git</connection>
+        <developerConnection>scm:git:jenkins.lxd/gasu/gchp-api.git</developerConnection>
+        <url>http://172.29.227.7/gasu/gchp-api.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+
+    <profiles>
+        <profile>
+            <id>dev-old</id>
+            <properties>
+                <activatedProperties>dev-old</activatedProperties>
+                <user-api.wsdl.classgen>http://user-service.gasu-development.ibs.ru/soap/publicUser?wsdl</user-api.wsdl.classgen>
+                <user-interface-api.wsdl.classgen>http://user-interface-service.gasu-development.ibs.ru/soap/publicUserInterface?wsdl
+                </user-interface-api.wsdl.classgen>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>docker</id>
+            <properties>
+                <activatedProperties>docker</activatedProperties>
+                <buildClassifier>${project.version}</buildClassifier>
+                <!--suppress UnresolvedMavenProperty -->
+                <user-api.wsdl.classgen>${USER_API_WSDL_URL}</user-api.wsdl.classgen>
+                <!--suppress UnresolvedMavenProperty -->
+                <user-interface-api.wsdl.classgen>${USER_INTERFACE_API_WSDL_URL}</user-interface-api.wsdl.classgen>
+                <!--suppress UnresolvedMavenProperty -->
+                <cxf.log.level>${SOAP_LOG_LVL}</cxf.log.level>
+                <!--suppress UnresolvedMavenProperty -->
+                <dict-data.wsdl.classgen>${DICTIONARY_SERVICE_DATA_WSDL}</dict-data.wsdl.classgen>
+                <!--suppress UnresolvedMavenProperty -->
+                <dict-meta.wsdl.classgen>${DICTIONARY_SERVICE_METADATA_WSDL}</dict-meta.wsdl.classgen>
+                <!--suppress UnresolvedMavenProperty -->
+                <doc.wsdl.classgen>${DOC_ERVICE_METADATA}</doc.wsdl.classgen>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+                <user-api.wsdl.classgen>http://user-service.gasu-development.ibs.ru/soap/publicUser?wsdl</user-api.wsdl.classgen>
+                <user-interface-api.wsdl.classgen>http://user-interface-service.gasu-development.ibs.ru/soap/publicUserInterface?wsdl
+                </user-interface-api.wsdl.classgen>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>local-pg</id>
+            <properties>
+                <activatedProperties>local-pg</activatedProperties>
+                <user-api.wsdl.classgen>http://user-service.gasu-development.ibs.ru/soap/publicUser?wsdl</user-api.wsdl.classgen>
+                <user-interface-api.wsdl.classgen>http://user-interface-service.gasu-development.ibs.ru/soap/publicUserInterface?wsdl
+                </user-interface-api.wsdl.classgen>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>${project.artifactId}-${buildClassifier}</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}/src/main/java/ru/ibs/gasu/soap/generated</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <source>1.8</source>-->
+            <!--                    <target>1.8</target>-->
+            <!--                    <annotationProcessorPaths>-->
+            <!--                        <annotationProcessorPath>-->
+            <!--                            <groupId>org.mapstruct</groupId>-->
+            <!--                            <artifactId>mapstruct-processor</artifactId>-->
+            <!--                            <version>1.3.0.Beta2</version>-->
+            <!--                        </annotationProcessorPath>-->
+            <!--                    </annotationProcessorPaths>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+
+            <plugin>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <keep>true</keep>
+                    <target>2.0</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>user-wsimport</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>${user-api.wsdl.classgen}</wsdlUrl>
+                            </wsdlUrls>
+                            <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                            <packageName>ru.ibs.gasu.soap.generated.user</packageName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>user-interface-wsimport</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>${user-interface-api.wsdl.classgen}</wsdlUrl>
+                            </wsdlUrls>
+                            <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                            <packageName>ru.ibs.gasu.soap.generated.userinterface</packageName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>dict-data-wsimport</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>${dict-data.wsdl.classgen}</wsdlUrl>
+                            </wsdlUrls>
+                            <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                            <packageName>ru.ibs.gasu.soap.generated.dictionary</packageName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>dict-meta-wsimport</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>${dict-meta.wsdl.classgen}</wsdlUrl>
+                            </wsdlUrls>
+                            <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                            <packageName>ru.ibs.gasu.soap.generated.dictionary</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- Micrometer -->
+        <dependency>
+             <groupId>io.micrometer</groupId>
+             <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.hibernate</groupId>-->
+<!--                    <artifactId>hibernate-core</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.9</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xml-apis</artifactId>
+                    <groupId>xml-apis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>ooxml-schemas</artifactId>
+            <version>1.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>stax-api</artifactId>
+                    <groupId>stax</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jxls</groupId>
+            <artifactId>jxls</artifactId>
+            <version>2.2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
+
+        <!-- Mapper -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.3.0.Beta2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/guava -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>guava</artifactId>
+            <version>2.8.4</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-envers -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>5.4.18.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.18.Final</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>5.4.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--    ODS    -->
+        <dependency>
+            <groupId>org.jopendocument</groupId>
+            <artifactId>jOpenDocument</artifactId>
+            <version>1.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/activesoap/jaxb-libs -->
+        <dependency>
+            <groupId>activesoap</groupId>
+            <artifactId>jaxb-libs</artifactId>
+            <version>1.5</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>datanucleus-repo</id>
+            <name>Oracle JDBC driver repository</name>
+            <url>http://www.datanucleus.org/downloads/maven2/</url>
+        </repository>
+    </repositories>
+</project>

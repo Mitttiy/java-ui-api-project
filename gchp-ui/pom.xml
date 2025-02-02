@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.ibs.gasu</groupId>
+    <artifactId>gchp-ui</artifactId>
+    <version>1.0.9</version>
+    <packaging>war</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.18.RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <jetty.version>9.2.26.v20180806</jetty.version>
+        <micrometer.version>1.5.2</micrometer.version>
+        <gwt.log.level>INFO</gwt.log.level>
+        <outputFolder>${project.build.directory}/${project.artifactId}</outputFolder>
+        <gchp-api.wsdl.classgen>http://172.29.227.16</gchp-api.wsdl.classgen>
+        <buildClassifier>${buildNumber}</buildClassifier>
+        <file-service.wsdl.gen>http://file.gasu-development.ibs.ru/soap/file?wsdl</file-service.wsdl.gen>
+    </properties>
+
+    <scm>
+        <connection>scm:git:http://jenkins.lxd/gasu/gchp-ui.git</connection>
+        <developerConnection>scm:git:jenkins.lxd/gasu/gchp-ui.git</developerConnection>
+        <url>http://172.29.227.7/gasu/gchp-ui.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <activatedProperties>local</activatedProperties>
+                <gchp-api.wsdl.classgen>http://localhost:7777</gchp-api.wsdl.classgen>
+                <file-service.wsdl.gen>http://file.gasu-development.ibs.ru/soap/file?wsdl</file-service.wsdl.gen>
+            </properties>
+        </profile>
+        <profile>
+            <id>docker</id>
+            <properties>
+                <activatedProperties>docker</activatedProperties>
+                <buildClassifier>${project.version}</buildClassifier>
+                <!--suppress UnresolvedMavenProperty -->
+                <gchp-api.wsdl.classgen>${GCHP_API_WSDL_BASE_URL}</gchp-api.wsdl.classgen>
+                <!--suppress UnresolvedMavenProperty -->
+                <file-service.wsdl.gen>${FILE_API_WSDL_ENDPOINT_URL}</file-service.wsdl.gen>
+                <!--suppress UnresolvedMavenProperty -->
+                <cxf.log.level>${SOAP_LOG_LVL}</cxf.log.level>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+                <gchp-api.wsdl.classgen>http://gchp-api.gasu-development.ibs.ru</gchp-api.wsdl.classgen>
+                <file-service.wsdl.gen>http://file.gasu-development.ibs.ru/soap/file?wsdl</file-service.wsdl.gen>
+            </properties>
+        </profile>
+    </profiles>
+
+
+    <build>
+        <finalName>${project.artifactId}-${buildClassifier}</finalName>
+        <outputDirectory>${outputFolder}/WEB-INF/classes</outputDirectory>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}/src/main/java/ru/ibs/gasu/common/soap/generated</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>2.8.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generateAsync</goal>
+                            <goal>css</goal>
+                            <goal>resources</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <runTarget>/</runTarget>
+                    <logLevel>${gwt.log.level}</logLevel>
+                    <extraJvmArgs>-Xms2048m -Xmx4096m</extraJvmArgs>
+                    <localWorkers>3</localWorkers>
+                    <modules>
+                        <module>${project.groupId}.Init</module>
+                        <module>${project.groupId}.GchpClient</module>
+                    </modules>
+                    <cssFiles>
+                        <cssFile>ru/ibs/gasu/client/crypto/SignSelectDialogListViewRow.gss</cssFile>
+                        <cssFile>ru/ibs/gasu/client/widgets/NavigationStyle.gss</cssFile>
+                    </cssFiles>
+                    <draftCompile>true</draftCompile>
+                    <disableClassMetadata>true</disableClassMetadata>
+                    <disableCastChecking>true</disableCastChecking>
+                    <hostedWebapp>${outputFolder}</hostedWebapp>
+                    <webappDirectory>${outputFolder}/WEB-INF/classes/public</webappDirectory>
+                    <deploy>${project.build.directory}/gwt-deploy</deploy>
+                </configuration>
+
+            </plugin>
+            <!-- Copy static web files before executing gwt:run -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exploded</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <webappDirectory>${outputFolder}</webappDirectory>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <excludes>
+                                <exclude>**/*.eot</exclude>
+                                <exclude>**/*.svg</exclude>
+                                <exclude>**/*.ttf</exclude>
+                                <exclude>**/*.woff</exclude>
+                                <exclude>**/*.woff2</exclude>
+                            </excludes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <keep>true</keep>
+                    <target>2.0</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>gchp-dictionaries-wsimport</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>${gchp-api.wsdl.classgen}/soap/dictionary?wsdl</wsdlUrl>
+                            </wsdlUrls>
+                            <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                            <packageName>ru.ibs.gasu.common.soap.generated.gchpdicts</packageName>
+                            <bindingFiles>${basedir}/src/main/resources/soapbinding/common-binding.xjb</bindingFiles>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>file-service-wsimport</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>${file-service.wsdl.gen}</wsdlUrl>
+                            </wsdlUrls>
+                            <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                            <packageName>ru.ibs.gasu.common.soap.generated.fileapi</packageName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>gchp-documents-wsimport</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlUrls>
+                                <wsdlUrl>${gchp-api.wsdl.classgen}/soap/documents?wsdl</wsdlUrl>
+                            </wsdlUrls>
+                            <sourceDestDir>${project.basedir}/src/main/java</sourceDestDir>
+                            <packageName>ru.ibs.gasu.common.soap.generated.gchpdocs</packageName>
+                            <bindingFiles>${basedir}/src/main/resources/soapbinding/common-binding.xjb</bindingFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-legacy</artifactId>
+            <version>2.0.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-spring-legacy</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_spring_boot</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_servlet</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- Apache CXF-->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-features-logging</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <!-- GWT -->
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+            <version>2.8.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- RestyGWT dependencies -->
+        <dependency>
+            <groupId>org.fusesource.restygwt</groupId>
+            <artifactId>restygwt</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <!-- GXT -->
+        <dependency>
+            <groupId>com.sencha.gxt</groupId>
+            <artifactId>gxt</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sencha.gxt</groupId>
+            <artifactId>gxt-theme-triton</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sencha.gxt</groupId>
+            <artifactId>gxt-chart</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
+
+        <!--    ODS    -->
+        <dependency>
+            <groupId>org.jopendocument</groupId>
+            <artifactId>jOpenDocument</artifactId>
+            <version>1.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

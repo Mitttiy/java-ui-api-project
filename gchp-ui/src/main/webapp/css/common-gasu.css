@@ -1,0 +1,94 @@
+/* Icons */
+.Gasu-search {
+	background-image: url(../../img/portlets/confirmation/search.gif);
+}
+.Gasu-clear {
+	background-image: url(../../img/portlets/confirmation/clear.png);
+}
+.Gasu-delete {
+	background-image: url(../../img/portlets/confirmation/delete.gif) !important;
+	background-position: 0 0 !important;
+}
+.Gasu-edit {
+	background-image: url(../../img/portlets/cooperation/change.png) !important;
+	background-position: 0 0 !important;
+}
+.Gasu-preview-bottom {
+	background-image: url(../../img/portlets/confirmation/preview-bottom.gif);
+}
+.Gasu-preview-right {
+	background-image: url(../../img/portlets/confirmation/preview-right.gif);
+}
+.Gasu-preview-none {
+	background-image: url(../../img/portlets/confirmation/preview-hide.gif);
+}
+.Gasu-table-save {
+	background-image: url(../../img/portlets/confirmation/table-save.png);
+}
+.Gasu-excel {
+	background-image: url(../../img/portlets/confirmation/excel.gif) !important;
+}
+.Gasu-csv {
+	background-image: url(../../img/portlets/confirmation/csv.gif);
+}
+.Gasu-xml {
+	background-image: url(../../img/portlets/confirmation/xml.gif);
+}
+.Gasu-refresh {
+	background-image: url(../../img/portlets/confirmation/refresh.gif);
+}
+.Gasu-printer {
+	background-image: url(../../img/portlets/confirmation/printer.png);
+}
+.Gasu-save {
+	background-image: url(../../img/portlets/confirmation/save.png);
+}
+.Gasu-open {
+	background-image: url(../../img/portlets/confirmation/open.png);
+}
+.Gasu-new {
+	background-image: url(../../img/portlets/confirmation/new.png);
+}
+.Gasu-close {
+	background-image: url(../../img/portlets/ism/close.png);
+}
+
+/* line 19, ../../../ext-theme-neutral/sass/src/form/field/Checkbox.scss */
+input[type="button"].x-form-checkbox  {
+	width: 15px;
+	height: 15px;
+	background: url(../../img/portlets/form/checkbox.gif) no-repeat;
+	border-radius: 0px;
+	border: 1px #FFFFFF solid;
+}
+
+/* line 25, ../../../ext-theme-neutral/sass/src/form/field/Checkbox.scss */
+.x-form-cb-checked input[type="button"].x-form-checkbox{
+	background-position: 0 -13px;
+}
+
+/* Focused */
+/* line 30, ../../../ext-theme-neutral/sass/src/form/field/Checkbox.scss */
+.x-form-checkbox-focus input[type="button"].x-form-checkbox-focus {
+	background-position: -13px 0;
+}
+
+/* line 34, ../../../ext-theme-neutral/sass/src/form/field/Checkbox.scss */
+.x-form-cb-checked .x-form-checkbox-focus input[type="button"].x-form-checkbox-focus{
+	background-position: -13px -13px;
+}
+.action-add {
+	background: url('../../img/portlets/stratplanning/add.png') no-repeat !important;
+
+}
+.action-delete {
+	background: url('../../img/portlets/stratplanning/delete.png') no-repeat !important;
+}
+
+/*---*/
+input[type="text"]{
+	line-height: normal !important
+}
+.x-btn-inner{
+	width: auto !important;
+}

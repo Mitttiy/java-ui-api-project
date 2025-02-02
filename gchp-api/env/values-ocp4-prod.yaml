@@ -1,0 +1,53 @@
+# Количество экземпляров приложения. Требуется для отказоустойчивости
+replicaCount: 1
+
+# Переменные с которыми запустится ваше приложение
+env:
+  DB_URL: 'jdbc:postgresql://db.gasu.local:5432/gchp?ApplicationName=gchp-api'
+  DB_USER: gchp
+  DB_PASSWORD: gchp
+  DB_SCHEMA: gchp
+  USER_API_ENDPOINT_URL: http://user-service.apps.prod.gasu.local/soap/publicUser
+  USER_INTERFACE_API_ENDPOINT_URL: http://user-interface-service.apps.prod.gasu.local/soap/publicUserInterface
+  DICT_DATA_API_ENDPOINT_URL: http://dict.apps.prod.gasu.local/soap/dictionaryData
+  DICT_METADATA_API_ENDPOINT_URL: http://dict.apps.prod.gasu.local/soap/dictionaryMetadata
+  LOG_LVL: WARN
+  SOAP_LOG_LVL: WARN
+  SHOW_SQL: "'false'"
+  JAVA_PARAM: '-XX:+UseG1GC -XX:+DisableExplicitGC -Xms1g -Xmx8g -Duser.timezone=Europe/Moscow'
+
+
+# По какой ссылке приложение доступно
+route:
+  host: gchp-api.apps.prod.gasu.local
+
+
+# Сколько ресурсов выдается при запуске = "requests". Если перевалить через "limits" то приложение перезапустится
+resources:
+  limits:
+    cpu: '3'
+    memory: 8Gi
+  requests:
+    cpu: 500m
+    memory: 8Gi
+
+
+# Проверка, что приложение живое и отвечает на запросы
+probe:
+  enabled: true
+livenessProbe:
+  enabled: true
+  path: '/actuator/health'
+  failureThreshold: 4
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+  initialDelaySeconds: 30
+
+readinessProbe:
+  path: '/actuator/health'
+  failureThreshold: 4
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+  initialDelaySeconds: 30

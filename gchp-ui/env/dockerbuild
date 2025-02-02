@@ -1,0 +1,2 @@
+GCHP_API_WSDL_BASE_URL=http://gchp-api.domain
+FILE_API_WSDL_ENDPOINT_URL=http://file.domain/soap/file?wsdl

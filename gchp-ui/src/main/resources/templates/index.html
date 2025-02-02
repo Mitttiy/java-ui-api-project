@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <script type="text/javascript" language="javascript"
+            th:src="@{gchpclient/gchpclient.nocache.js(v=${buildIdentifier})}"></script>
+    <link type="text/css" rel="stylesheet" media="all" th:href="@{css/reset.css(v=${buildIdentifier})}"/>
+    <link type="text/css" rel="stylesheet" media="all" th:href="@{css/loader.css(v=${buildIdentifier})}"/>
+    <link type="text/css" rel="stylesheet" media="all" th:href="@{css/global.css(v=${buildIdentifier})}"/>
+    <link type="text/css" rel="stylesheet" media="all" th:href="@{css/main.css(v=${buildIdentifier})}"/>
+    <link type="text/css" rel="stylesheet" media="all" th:href="@{css/gasu-font.css(v=${buildIdentifier})}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" media="all" th:href="@{fa5/css/all.css}"/>
+    <link rel="stylesheet" media="all" th:href="@{fa5/css/v4-shims.css}"/>
+    <title></title>
+</head>
+<body>
+
+<div id="pageLoader" class="loading">Загружается...</div>
+
+<h1 class="header">Мониторинг реализации проектов государственно-частного партнерства </h1>
+
+<div id="mainContent"></div>
+</body>
+</html>

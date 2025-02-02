@@ -1,0 +1,125 @@
+.icon-search-btn {
+    background: linear-gradient(to top, #005ccc, #ace6ff) !important;
+}
+.icon-search-btn:active {
+    background: linear-gradient(to top, #005cbb, #A3BAE9) !important;
+}
+.icon-search-btn .x-btn-inner{
+    color: white !important;
+}
+.icon-search-icon {
+    background-image: url(../../img/portlets/tcs/search.gif) !important;
+}
+.icon-clear {
+    background: linear-gradient(to top, #CC3333, #F1C6C6) !important;
+}
+.icon-clear:active {
+    background: linear-gradient(to top, #BB7777, #CC3333) !important;
+}
+
+.icon-clear .x-btn-inner{
+    color: white !important;
+}
+
+.icon-clear-icon {
+    background-image: url(../../img/portlets/tcs/clear.png) !important;
+}
+.icon-more{
+    width:30px !important;
+    height:30px !important;
+    background: linear-gradient(to top, dodgerblue, deepskyblue) !important;
+}
+.icon-more:active{
+    width:30px !important;
+    height:30px !important;
+    background: linear-gradient(to top, blue, dodgerblue) !important;
+}
+.icon-export{
+    width:30px !important;
+    height:30px !important;
+    background: linear-gradient(to top, #14702A, #C4E1A4) !important;
+}
+.icon-export:active{
+    width:30px !important;
+    height:30px !important;
+    background: linear-gradient(to top, #47702A, #CCE333) !important;
+}
+.icon-more-icon{
+    background-position: center center !important;
+    background-image: url("../../img/portlets/gchp/icon-full-screen.png") !important;
+    width:30px !important;
+    height:30px !important;
+}
+.icon-export-icon{
+    background-position: center center !important;
+    background-image: url("../../img/portlets/gchp/excel2007.png") !important;
+    width:30px !important;
+    height:30px !important;
+}
+/*
+.icon-export .x-btn-inner{
+    color: white !important;
+    width:20px !important;
+    height:20px !important;
+    padding-left: 0 !important;
+    padding-top:30px !important;
+}*/
+.x-item-disabled{
+    filter: alpha(opacity=30);
+    opacity: .3;
+}
+.x-item-readonly{
+    filter: alpha(opacity=60);
+    opacity: .6;
+    background: #ace6ff !important;
+}
+.gchpgrid  .x-column-header-inner .x-column-header-text{
+    white-space: normal !important;
+}
+
+.x-panel-body-default.bordered {
+    border: 1px solid #99BCE8 !important;
+}
+/*--*/
+/*.container{
+    padding: 0px;
+}*/
+
+
+/*.x-panel.x-fit-item.x-panel-default{*/
+    /*width: 660px !important;*/
+    /*height: 270px !important;*/
+/*}*/
+
+.x-toolbar.x-box-item.x-toolbar-item.x-toolbar-default.x-box-layout-ct{
+    width: 855px !important;
+}
+
+.x-btn.x-box-item.x-toolbar-item.x-btn-default-toolbar-small.x-icon.x-btn-icon.x-btn-default-toolbar-small-icon{
+    width: 20px ;
+}
+.x-component.x-box-item.x-toolbar-item.x-component-default{
+    color: black !important;
+}
+.x-panel-body-default{
+    border: 0 !important;
+}
+.x-column-header-inner {
+    border-left: 1px solid rgb(197, 197, 197) !important;
+    border-right: 1px solid rgb(197, 197, 197) !important;
+}
+.x-grid-row .x-grid-cell{
+    border-left: 1px solid #d0d0d0 !important;
+    border-right: 1px solid #d0d0d0 !important;
+}
+
+.x-boundlist-item img.chkCombo {
+    background: transparent url(../../../img/portlets/inputforms/unchecked.gif);
+    width: 17px;
+    height: 15px;
+}
+.x-boundlist-selected img.chkCombo{
+    background: transparent url(../../../img/portlets/inputforms/checked.gif);
+    width: 17px;
+    height: 15px;
+}

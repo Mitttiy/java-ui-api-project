@@ -1,0 +1,101 @@
+@def CHECKBOX_MARGIN value('theme.tree.checkboxMargin.toString');
+@def FONT_FAM "Roboto", sans-serif;
+@def FONT_SIZE 1rem;
+@def FONT_WEIGHT 300;
+@def FONT_COLOR value('theme.tree.text.color');
+@def LINE_HEIGHT value('theme.tree.lineHeight');
+@def ICON_MARGIN value('theme.tree.iconMargin.toString');
+@def ITEM_HEIGHT value('theme.tree.itemHeight');
+@def NODE_PADDING value('theme.tree.nodePadding.toString');
+@def DRAG_OVER_BACKGROUND_COLOR value('theme.tree.dragOverBackgroundColor');
+@def DROP_BACKGROUND_COLOR value('theme.tree.dropBackgroundColor');
+@def OVER_BACKGROUND_COLOR value('theme.tree.overBackgroundColor');
+@def SELECTED_BACKGROUND_COLOR value('theme.tree.selectedBackgroundColor');
+
+.tree {
+  cursor: default;
+  -moz-outline: none;
+  -moz-user-focus: none;
+  outline: 0 none;
+  position: relative;
+}
+
+.tree {
+  padding-bottom: 1px;
+}
+
+@if (is("gxt.user.agent", "ie9")) {
+  .tree {
+    min-height: 1%;
+  }
+}
+
+.node {
+  cursor: default;
+}
+
+.element {
+  white-space: nowrap;
+  height: 100%!important;
+}
+
+.container {
+  display: none;
+}
+
+.joint {
+  display: inline-block;
+  vertical-align: top;
+  margin: ICON_MARGIN;
+  background-position: center center !important;
+  height: ITEM_HEIGHT !important;
+  min-width: 16px;
+}
+
+.check {
+  display: inline-block;
+  vertical-align: top;
+  margin: CHECKBOX_MARGIN;
+}
+
+.icon {
+  display: inline-block;
+  vertical-align: top;
+  margin: ICON_MARGIN;
+  background-position: center center !important;
+  height: ITEM_HEIGHT !important;
+}
+
+.indent {
+  display: inline-block;
+  margin: ICON_MARGIN;
+}
+
+.text {
+  padding: NODE_PADDING;
+  font-size: FONT_SIZE;
+  font-weight: FONT_WEIGHT;
+  font-family: FONT_FAM;
+  color: FONT_COLOR;
+  margin-bottom: 6px;
+  white-space: initial;
+  margin-right: 65px;
+  margin-top: 0;
+}
+
+.dragOver {
+  background-image: none !important;
+  background-color: DRAG_OVER_BACKGROUND_COLOR !important;
+}
+
+.over {
+  background-color: OVER_BACKGROUND_COLOR;
+}
+
+.drop {
+  background-color: DROP_BACKGROUND_COLOR;
+}
+
+.selected {
+  background-color: SELECTED_BACKGROUND_COLOR !important;
+}

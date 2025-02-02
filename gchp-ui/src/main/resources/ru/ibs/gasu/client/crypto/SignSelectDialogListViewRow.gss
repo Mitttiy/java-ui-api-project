@@ -1,0 +1,63 @@
+.has-arrow {
+    right: 10px;
+}
+.datalist-block {
+    height: 60px;
+/*
+    margin-left: -6px;
+    margin-right: -6px;
+    margin-bottom: -8px;
+*/
+}
+/*
+.datalist-block .datalist-item:active {
+    background: #f6f6f6;
+    cursor: pointer;
+}
+.datalist-block .datalist-item:hover {
+    background: #f6f6f6;
+    cursor: pointer;
+}
+*/
+.datalist-block .datalist-item .line {
+    display: block;
+    font-size: 13px;
+    /*line-height: normal;*/
+    padding-bottom: 4px;
+}
+.datalist-block .datalist-item .line .label {
+    color: #666;
+}
+.datalist-block .datalist-item .fio {
+    padding-bottom: 6px;
+}
+.datalist-block.has-arrow:after {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    background: url(../img/arrow-right.svg) left top;
+    background-size: 30px 51px;
+    content: "";
+    display: block;
+    margin-top: -25px;
+    height: 51px;
+    width: 30px;
+}
+
+.itemWrap {
+    height: 60px;
+    cursor: pointer;
+    vertical-align: middle;
+    background-color: #ffffff;
+    color: white;
+
+}
+
+.itemOver {
+    background-color: #f6f6f6;
+}
+
+.itemSelected {
+    background-color: #f6f6f6;
+
+}

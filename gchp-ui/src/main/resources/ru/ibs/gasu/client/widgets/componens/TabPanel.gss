@@ -1,0 +1,324 @@
+.tab {
+  overflow: hidden;
+}
+
+.tab {
+  outline: none;
+}
+
+.tabHeader,
+.tabFooter {
+  overflow: hidden;
+}
+
+.tabHeader {
+  padding-bottom: 0px;
+  margin-top: 0;
+  display: table;
+  width: 100%;
+  margin-left: 0;
+  margin-bottom: 20px;
+}
+
+.tabFooter {
+  padding-top: 2px;
+}
+
+.tabStripWrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+@if (!is("user.agent", "ie8")) {
+  .tabStrip {
+    display: block;
+    width: 1000000px;
+  }
+}
+@else  {
+  .tabStrip {
+    display: block;
+    width: 65520px;
+  }
+}
+
+.tabStripTop {
+  margin-top: 1px;
+  background: repeat-x bottom;
+  padding-left: 0px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #efefef;
+}
+
+.tabStripBottom {
+  padding-bottom: 1px;
+  background: repeat-x top;
+  border-bottom: 0 none;
+}
+
+.tabStrip li {
+  float: left;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  top: 1px;
+  overflow: hidden;
+}
+
+.tabStrip li.tabEdge {
+  float: left;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 none !important;
+  font-size: 1px !important;
+  line-height: 1px !important;
+  overflow: hidden;
+  background: transparent !important;
+  width: 1px;
+}
+
+.tabStrip a,
+.tabStrip span,
+.tabStrip em {
+  display: block;
+}
+
+.tabStrip a {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.tabStrip a {
+  outline: none;
+}
+
+.tabStripInner {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  padding: 3px 25px 0px;
+  border: 1px solid transparent;
+  position: relative;
+  -moz-border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px;
+  border-radius: 3px 3px 0 0;
+  font-size: 16px;
+  color: #a2a2a2;
+  font-weight: 300;
+  float: left;
+}
+
+.tabStrip span.tabStripText {
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.tabStripTop .tabWithIcon .tabRight {
+  padding-left: 6px;
+}
+
+.tabStrip .tabWithIcon span.tabStripText {
+  padding-left: 20px;
+  background-position: 0 3px;
+  background-repeat: no-repeat;
+}
+
+.tabStripActive {
+  border: solid 1px;
+  border-color: #40a4bb #efefef #fff;
+}
+
+.tabStripActive a.tabRight {
+  cursor: default;
+}
+
+.tabStripActive span.tabStripText {
+  cursor: default;
+}
+
+.tabStripDisabled .tabsText {
+  cursor: default;
+}
+
+.tabBody {
+  overflow: hidden;
+}
+
+.tabBwrap {
+  overflow: hidden;
+}
+
+@if (is("user.agent", "ie8") || is("user.agent", "ie9")) {
+  .tabStrip .tabRight {
+    position: relative;
+  }
+}
+
+.tabStripTop .tabStripActive .tabRight {
+  margin-bottom: -1px;
+}
+
+.tabStripTop .tabStripActive .tabRight span.tabStripText {
+  padding-bottom: 5px;
+  color: #484848;
+}
+
+.tabStripBottom .tabStripActive .tabRight {
+  margin-top: -1px;
+}
+
+.tabStripBottom .tabStripActive .tabRight span.tabStripText {
+  padding-top: 5px;
+}
+
+.tabStripBottom .tabLeft {
+  padding: 0 10px;
+}
+
+.tabStripBottom .tabRight {
+  padding: 0;
+}
+
+.tabStrip .tabStripClose {
+  display: none;
+}
+
+.tabStripClosable {
+  position: relative;
+}
+
+.tabStripClosable .tabLeft {
+  padding-right: 19px;
+}
+
+.tabStrip .tabStripClosable a.tabStripClose {
+  display: block;
+  position: absolute;
+  top: 7px;
+  right: 3px;
+  cursor: pointer;
+  z-index: 2;
+  height: 16px;
+  width: 16px;
+  overflow: hidden;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAjklEQVR42mNgoBuYP38+x8SJE0t6enpEYGL9/f0CEyZMqADJYWgAKt4OxP+B+DxIE1TxaajYdnwawJqQFGPXAHXSZiRFMHwcZBtWf/T19akAFXxH06CDVTHIFJBTsNjweOrUqRIYGtDdjO4nbBqaYYpB/oH6Caxp0qRJk7E6CygZgRzmUE0R9fX1LGRHMAAm7Jh17Yua7wAAAABJRU5ErkJggg==) -0px -0px no-repeat;
+}
+
+@if (is("user.agent", "ie8")) {
+  .tabStrip .tabStripClosable a.tabStripClose {
+    filter: alpha(opacity=60);
+  }
+}
+@else  {
+  .tabStrip .tabStripClosable a.tabStripClose {
+    opacity: 0.6;
+  }
+}
+
+.tabStrip .tabStripActive a.tabStripClose {
+  opacity: 0.8;
+}
+
+.tabStrip .tabStripClosable a.tabStripClose:hover {
+  opacity: 1;
+}
+
+.tabBody {
+}
+
+.tabBodyTop {
+}
+
+.tabBodyBottom {
+}
+
+.tabScrollerLeft {
+  background: transparent no-repeat -18px 0;
+  width: 18px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.tabScrollerLeftDisabled,
+.tabScrollerRightDisabled {
+  cursor: default;
+}
+
+@if (is("user.agent", "ie8")) {
+  .tabScrollerLeftDisabled,
+  .tabScrollerRightDisabled {
+    filter: alpha(opacity=50);
+  }
+}
+@else  {
+  .tabScrollerLeftDisabled,
+  .tabScrollerRightDisabled {
+    opacity: 0.5;
+  }
+}
+
+.tabScrollerRight {
+  background: transparent no-repeat 0 0;
+  border-bottom: 1px solid;
+  width: 18px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.tabScrollingBottom .tabScrollerLeft,
+.tabScrollingBottom .tabScrollerRight {
+  margin-top: 1px;
+}
+
+.tabScrolling .tabStripWrap {
+  margin-left: 18px;
+  margin-right: 18px;
+}
+
+.tabScrolling {
+  position: relative;
+}
+
+.tabBbar .xToolbar {
+  border: 1px solid;
+  border-top: 0 none;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.tabTbar .xToolbar {
+  border: 1px solid;
+  border-top: 0 none;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.tabStrip li .tabImage {
+  position: absolute;
+}
+
+@if (is("user.agent", "ie8")) {
+  .tabStrip li .tabImage {
+    top: 4px;
+    left: 6px;
+  }
+}
+@else  {
+  .tabStrip li .tabImage {
+    top: 3px;
+    left: 5px;
+  }
+}
+
+.tabStripTop .tabRight {
+  top: 0;
+}
